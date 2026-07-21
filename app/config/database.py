@@ -1,6 +1,5 @@
-from config.settings import settings
+from app.config.settings import settings
 
-from dotenv import load_dotenv
 import psycopg
 from psycopg.rows import dict_row
 

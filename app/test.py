@@ -1,12 +1,13 @@
 from config.database import get_connection
+from repositories.user_repository import UserRepository
 
 
-try:
-    conn = get_connection()
+conn = get_connection()
 
-    print("Database connected successfully!")
+repo = UserRepository(conn)
 
-    conn.close()
+user = repo.get_user_by_username("john")
 
-except Exception as e:
-    print(e)
+print(user)
+
+conn.close()

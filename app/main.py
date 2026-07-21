@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 
+from app.routers import auth
+
 app = FastAPI()
 
-
-@app.get("/")
-def home():
-    return {
-        "message": "Daily Sales Tracker API is running"
-    }
+app.include_router(auth.router)
