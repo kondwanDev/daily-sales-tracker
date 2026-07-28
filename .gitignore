@@ -21,4 +21,5 @@ htmlcov/
 
 # Logs
 *.log
+test.py
 .test.py

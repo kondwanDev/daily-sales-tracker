@@ -4,6 +4,7 @@ class Settings (BaseSettings):
 
      # Database
     DATABASE_HOST: str
+    DATABASE_PORT: int 
     DATABASE_NAME: str
     DATABASE_USER: str
     DATABASE_PASSWORD: str
