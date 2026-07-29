@@ -65,3 +65,15 @@ def update_product(
 ):
 
     return service.update_product(product_id, product)
+
+@router.delete(
+    "/{product_id}",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+def delete_product(
+    product_id: int,
+    service: ProductService = Depends(get_product_service),
+    current_user: dict = Depends(get_current_user)
+):
+
+    service.delete_product(product_id) # no return statement needed for 204 No Content response

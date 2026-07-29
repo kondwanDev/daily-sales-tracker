@@ -16,6 +16,7 @@ CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     category VARCHAR(100),
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
     default_price NUMERIC(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -65,3 +65,13 @@ class ProductService:
     )
 
      return updated_product
+
+    def delete_product(self, product_id: int):
+
+     deleted = self.repo.soft_delete_product(product_id)
+
+     if not deleted:
+        raise HTTPException(
+            status_code=404,
+            detail="Product not found."
+        )

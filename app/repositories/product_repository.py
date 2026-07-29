@@ -16,6 +16,7 @@ class ProductRepository:
             SELECT *
             FROM products
             WHERE name = %s
+            AND is_deleted = FALSE
             """,
             (name,)
         )
@@ -76,6 +77,7 @@ class ProductRepository:
                 SELECT *
                 FROM products
                 WHERE name ILIKE %s
+                AND is_deleted = FALSE
                 ORDER BY id
                 """,
                 (f"%{name}%",)
@@ -105,6 +107,7 @@ class ProductRepository:
             SELECT *
             FROM products
             WHERE id = %s
+            AND is_deleted = FALSE
             """,
             (product_id,)
         )
@@ -141,3 +144,22 @@ class ProductRepository:
          self.conn.commit()
 
          return updated_product
+
+    def soft_delete_product(self, product_id: int) -> bool:
+
+      with self.conn.cursor() as cur:
+
+         cur.execute(
+            """
+            UPDATE products
+            SET is_deleted = TRUE
+            WHERE id = %s
+              AND is_deleted = FALSE
+            """,
+            (product_id,)
+        )
+
+         self.conn.commit()
+
+         return cur.rowcount > 0 # returns True if a row was updated, False otherwise
+        
