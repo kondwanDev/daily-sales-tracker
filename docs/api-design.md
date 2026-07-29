@@ -55,7 +55,11 @@ Returns all products.
 Returns details for a single product.
 
 ---
+**GET `/product/search
+ 
+search products
 
+------
 ## Create Product
 
 **POST** `/products`

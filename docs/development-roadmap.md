@@ -37,12 +37,12 @@ Allow users to securely access the system.
 
 ## Tasks
 
-* [ ] Password hashing.
-* [ ] User registration (initial setup).
-* [ ] User login.
-* [ ] JWT authentication.
-* [ ] Protected routes.
-* [ ] Retrieve the currently logged-in user.
+* [x] Password hashing.
+* [x] User registration (initial setup).
+* [x] User login.
+* [x] JWT authentication.
+* [x] Protected routes.
+* [x] Retrieve the currently logged-in user.
 
 ---
 
