@@ -23,3 +23,13 @@ def create_product(
     current_user: dict = Depends(get_current_user)
 ):
     return service.create_product(product)
+
+@router.get(
+    "",
+    response_model=list[ProductResponse]
+)
+def get_products(
+    service: ProductService = Depends(get_product_service),
+    current_user: dict = Depends(get_current_user)
+):
+    return service.get_all_products()

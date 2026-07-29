@@ -63,3 +63,20 @@ class ProductRepository:
             self.conn.commit()
 
             return created_product
+
+
+    def get_all_products(self):
+
+      with self.conn.cursor() as cur:
+
+        cur.execute(
+            """
+            SELECT *
+            FROM products
+            ORDER BY id
+            """
+        )
+
+        products = cur.fetchall()
+
+        return products

@@ -23,3 +23,10 @@ class ProductService:
             )
 
         return self.repo.create_product(product)
+    
+
+    def get_all_products(self):
+
+      products = self.repo.get_all_products()
+
+      return products  
