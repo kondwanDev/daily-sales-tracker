@@ -3,7 +3,7 @@ from fastapi import Query
 
 from app.dependencies.auth import get_current_user
 from app.dependencies.services import get_product_service
-from app.schemas.product_schema import ProductCreate, ProductResponse
+from app.schemas.product_schema import ProductCreate, ProductResponse, ProductUpdate
 from app.services.product_service import ProductService
 
 
@@ -52,3 +52,16 @@ def get_product(
 ):
 
     return service.get_product_by_id(product_id)
+
+@router.put(
+    "/{product_id}",
+    response_model=ProductResponse
+)
+def update_product(
+    product_id: int,
+    product: ProductUpdate,
+    service: ProductService = Depends(get_product_service),
+    current_user: dict = Depends(get_current_user)
+):
+
+    return service.update_product(product_id, product)

@@ -112,3 +112,32 @@ class ProductRepository:
         product = cur.fetchone()
 
         return product
+
+
+    def update_product(self, product_id: int, product_data: dict):
+
+      with self.conn.cursor() as cur:
+
+         cur.execute(
+            """
+            UPDATE products
+            SET 
+                name = %s,
+                category = %s,
+                default_price = %s
+            WHERE id = %s
+            RETURNING *
+            """,
+            (
+                product_data["name"],
+                product_data["category"],
+                product_data["default_price"],
+                product_id
+            )
+        )
+
+         updated_product = cur.fetchone()
+
+         self.conn.commit()
+
+         return updated_product

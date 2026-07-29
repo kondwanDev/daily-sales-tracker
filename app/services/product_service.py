@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 
 from app.repositories.product_repository import ProductRepository
-from app.schemas.product_schema import ProductCreate
+from app.schemas.product_schema import ProductCreate, ProductUpdate
 
 
 class ProductService:
@@ -42,3 +42,26 @@ class ProductService:
         )
 
       return product
+
+    def update_product(
+    self,
+    product_id: int,
+    product: ProductUpdate
+):
+
+     existing_product = self.repo.get_product_by_id(product_id)
+
+     if existing_product is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Product not found."
+        )
+
+     product_data = product.model_dump() #convert the ProductUpdate object to a dictionary for repo....
+
+     updated_product = self.repo.update_product(
+        product_id,
+        product_data
+    )
+
+     return updated_product

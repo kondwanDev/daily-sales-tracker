@@ -16,3 +16,8 @@ class ProductResponse(BaseModel):
     category: str | None
     default_price: Decimal
     created_at: datetime
+
+class ProductUpdate(BaseModel):
+    name: str
+    category: str
+    default_price: Decimal
