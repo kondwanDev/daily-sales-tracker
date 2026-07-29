@@ -25,11 +25,11 @@ class ProductService:
         return self.repo.create_product(product)
     
 
-    def get_all_products(self):
+    def get_products(self, name: str | None = None):
 
-      products = self.repo.get_all_products()
+      products = self.repo.get_products(name)
 
-      return products  
+      return products
 
     def get_product_by_id(self, product_id: int):
 

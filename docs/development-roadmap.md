@@ -170,8 +170,8 @@ These features are outside the scope of the first version.
 | Milestone                   | Status        |
 | --------------------------- | ------------- |
 | Project Setup               | ✅ Completed   |
-| Authentication              | ⏳ Not Started |
-| Product Management          | ⏳ Not Started |
+| Authentication              | ✅ Completed 
+| Product Management          | in-progress |
 | Sales Management            | ⏳ Not Started |
 | Reporting                   | ⏳ Not Started |
 | Validation & Error Handling | ⏳ Not Started |

@@ -65,17 +65,31 @@ class ProductRepository:
             return created_product
 
 
-    def get_all_products(self):
+    def get_products(self, name: str | None = None):
 
       with self.conn.cursor() as cur:
 
-        cur.execute(
-            """
-            SELECT *
-            FROM products
-            ORDER BY id
-            """
-        )
+        if name:
+
+            cur.execute(
+                """
+                SELECT *
+                FROM products
+                WHERE name ILIKE %s
+                ORDER BY id
+                """,
+                (f"%{name}%",)
+            )
+
+        else:
+
+            cur.execute(
+                """
+                SELECT *
+                FROM products
+                ORDER BY id
+                """
+            )
 
         products = cur.fetchall()
 

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, status
+from fastapi import Query
 
 from app.dependencies.auth import get_current_user
 from app.dependencies.services import get_product_service
@@ -28,12 +29,17 @@ def create_product(
     "",
     response_model=list[ProductResponse]
 )
+@router.get(
+    "",
+    response_model=list[ProductResponse]
+)
 def get_products(
+    name: str | None = Query(default=None),
     service: ProductService = Depends(get_product_service),
     current_user: dict = Depends(get_current_user)
 ):
-    return service.get_all_products()
 
+    return service.get_products(name)
 
 @router.get(
     "/{product_id}",
