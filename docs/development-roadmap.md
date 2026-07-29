@@ -54,11 +54,11 @@ Allow products to be managed by authenticated users.
 
 ## Tasks
 
-* [ ] Add products.
-* [ ] View all products.
-* [ ] Search products.
-* [ ] Update products.
-* [ ] Delete products (or soft delete).
+* [*] Add products.
+* [*] View all products.
+* [*] Search products.
+* [*] Update products.
+* [*] Delete products (or soft delete).
 
 ---
 
@@ -169,9 +169,9 @@ These features are outside the scope of the first version.
 
 | Milestone                   | Status        |
 | --------------------------- | ------------- |
-| Project Setup               | ✅ Completed   |
-| Authentication              | ✅ Completed 
-| Product Management          | in-progress |
+| Project Setup               | ✅ Completed  |
+| Authentication              | ✅ Co mpleted
+| Product Management          | ✅ Co mpleted  |
 | Sales Management            | ⏳ Not Started |
 | Reporting                   | ⏳ Not Started |
 | Validation & Error Handling | ⏳ Not Started |
