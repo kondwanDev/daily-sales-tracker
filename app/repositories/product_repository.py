@@ -80,3 +80,21 @@ class ProductRepository:
         products = cur.fetchall()
 
         return products
+
+
+    def get_product_by_id(self, product_id: int):
+
+      with self.conn.cursor() as cur:
+
+        cur.execute(
+            """
+            SELECT *
+            FROM products
+            WHERE id = %s
+            """,
+            (product_id,)
+        )
+
+        product = cur.fetchone()
+
+        return product

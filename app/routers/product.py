@@ -33,3 +33,16 @@ def get_products(
     current_user: dict = Depends(get_current_user)
 ):
     return service.get_all_products()
+
+
+@router.get(
+    "/{product_id}",
+    response_model=ProductResponse
+)
+def get_product(
+    product_id: int,
+    service: ProductService = Depends(get_product_service),
+    current_user: dict = Depends(get_current_user)
+):
+
+    return service.get_product_by_id(product_id)

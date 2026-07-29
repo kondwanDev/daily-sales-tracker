@@ -30,3 +30,15 @@ class ProductService:
       products = self.repo.get_all_products()
 
       return products  
+
+    def get_product_by_id(self, product_id: int):
+
+      product = self.repo.get_product_by_id(product_id)
+
+      if not product:
+        raise HTTPException(
+            status_code=404,
+            detail="Product not found"
+        )
+
+      return product
