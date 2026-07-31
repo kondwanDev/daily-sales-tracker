@@ -2,16 +2,18 @@ from fastapi import HTTPException, status
 
 from app.repositories.product_repository import ProductRepository
 from app.schemas.product_schema import ProductCreate, ProductUpdate
+from app.unit_of_work.unit_of_work import UnitOfWork
 
 
 class ProductService:
 
-    def __init__(self, repo: ProductRepository):
+    def __init__(self, repo: ProductRepository, uow: UnitOfWork):
         self.repo = repo
-
+        self.uow = uow
 
     def create_product(self, product: ProductCreate):
-
+       
+       with self.uow:
         existing_product = self.repo.get_product_by_name(
             product.name
         )
@@ -22,7 +24,11 @@ class ProductService:
                 detail="Product already exists"
             )
 
-        return self.repo.create_product(product)
+        new_product = self.repo.create_product(product)
+
+        self.uow.commit()
+
+        return new_product
     
 
     def get_products(self, name: str | None = None):
@@ -48,30 +54,35 @@ class ProductService:
     product_id: int,
     product: ProductUpdate
 ):
+     with self.uow:
+      existing_product = self.repo.get_product_by_id(product_id)
 
-     existing_product = self.repo.get_product_by_id(product_id)
-
-     if existing_product is None:
+      if existing_product is None:
         raise HTTPException(
             status_code=404,
             detail="Product not found."
         )
 
-     product_data = product.model_dump() #convert the ProductUpdate object to a dictionary for repo....
+      product_data = product.model_dump() #convert the ProductUpdate object to a dictionary for repo....
 
-     updated_product = self.repo.update_product(
+      updated_product = self.repo.update_product(
         product_id,
         product_data
     )
 
-     return updated_product
+      self.uow.commit()
+
+      return updated_product
 
     def delete_product(self, product_id: int):
 
-     deleted = self.repo.soft_delete_product(product_id)
+        with self.uow:
 
-     if not deleted:
-        raise HTTPException(
+          deleted = self.repo.soft_delete_product(product_id)
+
+          if not deleted:
+           raise HTTPException(
             status_code=404,
             detail="Product not found."
         )
+          self.uow.commit()

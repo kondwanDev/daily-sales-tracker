@@ -61,8 +61,6 @@ class ProductRepository:
 
             created_product = cur.fetchone()
 
-            self.conn.commit()
-
             return created_product
 
 
@@ -141,8 +139,6 @@ class ProductRepository:
 
          updated_product = cur.fetchone()
 
-         self.conn.commit()
-
          return updated_product
 
     def soft_delete_product(self, product_id: int) -> bool:
@@ -159,7 +155,6 @@ class ProductRepository:
             (product_id,)
         )
 
-         self.conn.commit()
 
          return cur.rowcount > 0 # returns True if a row was updated, False otherwise
         
