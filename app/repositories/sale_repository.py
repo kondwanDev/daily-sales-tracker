@@ -87,3 +87,72 @@ class SaleRepository:
             )
 
             return cur.fetchone() is not None
+
+    def get_sales(
+    self,
+    user_id: int,
+    limit: int = 10,
+    offset: int = 0
+):
+
+      with self.conn.cursor() as cur:
+
+        cur.execute(
+            """
+            SELECT
+                id,
+                total_amount,
+                sale_date
+            FROM sales
+            WHERE user_id = %s
+            ORDER BY sale_date DESC
+            LIMIT %s
+            OFFSET %s;
+            """,
+            (user_id, limit, offset)
+        )
+
+        return cur.fetchall()
+
+
+    def get_sale_by_id(
+    self,
+    sale_id: int,
+    user_id: int
+):
+
+     with self.conn.cursor() as cur:
+
+        cur.execute(
+            """
+            SELECT
+                s.id,
+                s.total_amount,
+                s.sale_date,
+
+                si.product_id,
+                p.name AS product_name,
+                p.default_price,
+                si.quantity,
+                si.selling_price
+
+            FROM sales s
+
+            INNER JOIN sale_items si
+                ON s.id = si.sale_id
+
+            INNER JOIN products p
+                ON si.product_id = p.id
+
+            WHERE s.id = %s
+            AND s.user_id = %s
+
+            ORDER BY si.id;
+            """,
+            (
+                sale_id,
+                user_id
+            )
+        )
+
+        return cur.fetchall()

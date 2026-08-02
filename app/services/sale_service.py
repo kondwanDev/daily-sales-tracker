@@ -3,7 +3,7 @@ from decimal import Decimal
 from fastapi import HTTPException, status
 
 from app.repositories.sale_repository import SaleRepository
-from app.schemas.sale_schema import SaleCreate
+from app.schemas.sale_schema import SaleCreate, SaleItemResponse, SaleDetailResponse
 from app.unit_of_work.unit_of_work import UnitOfWork
 
 
@@ -56,3 +56,58 @@ class SaleService:
             self.uow.commit()
 
             return updated_sale
+
+    def get_sales(
+    self,
+    user_id: int,
+    page: int,
+    per_page: int
+): 
+            offset = (page - 1) * per_page
+
+            return self.repo.get_sales(user_id,
+                                       limit=per_page,
+                                       offset=offset)
+
+
+    def get_sale_by_id(
+    self,
+    sale_id: int,
+    user_id: int
+):
+
+        rows = self.repo.get_sale_by_id(
+        sale_id,
+        user_id
+    )
+        
+        if not rows:
+         raise HTTPException(
+            status_code=404,
+            detail="Sale not found"
+        )
+
+    # Construct the SaleDetailResponse object from the rows returned by the repository
+    # rows[0] contains the sale details, and the rest of the rows contain the sale items
+        sale = {
+        "id": rows[0]["id"],
+        "total_amount": rows[0]["total_amount"],
+        "sale_date": rows[0]["sale_date"],
+        "items": []
+    }
+
+
+        for row in rows:
+
+         item = SaleItemResponse(
+            product_id=row["product_id"],
+            product_name=row["product_name"],
+            default_price=row["default_price"],
+            quantity=row["quantity"],
+            selling_price=row["selling_price"]
+        ) 
+         
+
+         sale["items"].append(item)
+
+        return SaleDetailResponse(**sale) # using **sale to unpack the dictionary into keyword arguments for the SaleDetailResponse model

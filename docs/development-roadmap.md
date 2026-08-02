@@ -70,13 +70,13 @@ Allow shop operators to record customer purchases.
 
 ## Tasks
 
-* [ ] Create a sale.
-* [ ] Add multiple sale items.
-* [ ] Support negotiated selling prices.
-* [ ] Automatically calculate sale totals.
-* [ ] Save completed transactions.
-* [ ] View sale details.
-* [ ] View sales history.
+* [*] Create a sale.
+* [*] Add multiple sale items.
+* [*] Support negotiated selling prices.
+* [*] Automatically calculate sale totals.
+* [*] Save completed transactions.
+* [*] View sale details.
+* [*] View sales history.
 
 ---
 
@@ -172,7 +172,7 @@ These features are outside the scope of the first version.
 | Project Setup               | ✅ Completed  |
 | Authentication              | ✅ Co mpleted
 | Product Management          | ✅ Co mpleted  |
-| Sales Management            | ⏳ Not Started |
+| Sales Management            | ✅ Co mpleted |
 | Reporting                   | ⏳ Not Started |
 | Validation & Error Handling | ⏳ Not Started |
 | Testing                     | ⏳ Not Started |

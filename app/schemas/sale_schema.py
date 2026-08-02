@@ -1,3 +1,4 @@
+from datetime  import datetime
 from decimal import Decimal
 
 from pydantic import BaseModel, Field, model_validator
@@ -37,3 +38,23 @@ class SaleCreate(BaseModel):
             )
 
         return self # return the model instance after validation
+class SaleListResponse(BaseModel):
+
+      id: int
+      total_amount: Decimal
+      sale_date: datetime
+
+class SaleItemResponse(BaseModel):
+
+    product_id: int
+    product_name: str
+    default_price: Decimal
+    quantity: int
+    selling_price: Decimal
+
+class SaleDetailResponse(BaseModel):
+
+    id: int
+    total_amount: Decimal
+    sale_date: datetime
+    items: list[SaleItemResponse]
