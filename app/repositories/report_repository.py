@@ -29,3 +29,36 @@ class ReportRepository:
         )
 
         return cur.fetchone()
+
+    def get_sales_history(
+    self,
+    user_id: int,
+    from_date,
+    to_date
+):
+
+     with self.conn.cursor() as cur:
+
+        cur.execute(
+            """
+            SELECT
+                id,
+                total_amount,
+                sale_date
+
+            FROM sales
+
+            WHERE user_id = %s
+
+            AND sale_date::date BETWEEN %s AND %s
+
+            ORDER BY sale_date DESC;
+            """,
+            (
+                user_id,
+                from_date,
+                to_date
+            )
+        )
+
+        return cur.fetchall()
