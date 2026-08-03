@@ -34,12 +34,16 @@ def create_product(
     response_model=list[ProductResponse]
 )
 def get_products(
+    page: int = Query(default=1, ge=1),
+    per_page: int = Query(default=20, ge=1, le=100),
     name: str | None = Query(default=None),
     service: ProductService = Depends(get_product_service),
     current_user: dict = Depends(get_current_user)
 ):
 
-    return service.get_products(name)
+    return service.get_products(name = name ,
+                                 page=page, 
+                                 per_page=per_page)
 
 @router.get(
     "/{product_id}",

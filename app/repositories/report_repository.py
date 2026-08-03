@@ -62,3 +62,53 @@ class ReportRepository:
         )
 
         return cur.fetchall()
+
+
+    def get_product_sales(
+    self,
+    user_id: int,
+    from_date,
+    to_date
+):
+
+     with self.conn.cursor() as cur:
+
+        cur.execute(
+            """
+            SELECT
+                p.id AS product_id,
+                p.name AS product_name,
+                p.default_price,
+
+                SUM(si.quantity) AS quantity_sold,
+
+                SUM(
+                    si.quantity * si.selling_price
+                ) AS revenue
+
+            FROM sale_items si
+
+            INNER JOIN products p
+                ON si.product_id = p.id
+
+            INNER JOIN sales s
+                ON si.sale_id = s.id
+
+            WHERE s.user_id = %s
+            AND s.sale_date::date BETWEEN %s AND %s
+
+            GROUP BY
+                p.id,
+                p.name,
+                p.default_price
+
+            ORDER BY quantity_sold DESC;
+            """,
+            (
+                user_id,
+                from_date,
+                to_date
+            )
+        )
+
+        return cur.fetchall()

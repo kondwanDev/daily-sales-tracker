@@ -64,7 +64,7 @@ class ProductRepository:
             return created_product
 
 
-    def get_products(self, name: str | None = None):
+    def get_products(self, name: str | None = None, offset: int = 0, limit: int = 20):
 
       with self.conn.cursor() as cur:
 
@@ -77,8 +77,10 @@ class ProductRepository:
                 WHERE name ILIKE %s
                 AND is_deleted = FALSE
                 ORDER BY id
+                LIMIT %s
+                OFFSET %s
                 """,
-                (f"%{name}%",)
+                (f"%{name}%", limit, offset)
             )
 
         else:
@@ -88,7 +90,10 @@ class ProductRepository:
                 SELECT *
                 FROM products
                 ORDER BY id
-                """
+                LIMIT %s
+                OFFSET %s
+                """,
+                (limit, offset)
             )
 
         products = cur.fetchall()

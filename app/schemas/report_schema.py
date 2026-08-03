@@ -24,6 +24,7 @@ class ProductSalesResponse(BaseModel):
     product_name: str
     quantity_sold: int
     revenue: Decimal
+    default_price: Decimal
 
 """
    # Instead of repeating from and to everywhere later, we create one reusable schema

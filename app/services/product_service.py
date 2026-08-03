@@ -31,9 +31,11 @@ class ProductService:
         return new_product
     
 
-    def get_products(self, name: str | None = None):
+    def get_products(self, name: str | None = None, page: int = 1, per_page: int = 20):
 
-      products = self.repo.get_products(name)
+      offset = (page - 1) * per_page
+
+      products = self.repo.get_products(name, offset, per_page)
 
       return products
 
