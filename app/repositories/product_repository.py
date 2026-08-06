@@ -1,6 +1,3 @@
-from app.schemas.product_schema import ProductCreate
-
-
 class ProductRepository:
 
     def __init__(self, conn):
