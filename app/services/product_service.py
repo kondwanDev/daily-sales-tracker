@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status
+from app.exceptions.product_exceptions import ProductNotFoundException, ProductAlreadyExistsException
 
 from app.repositories.product_repository import ProductRepository
 from app.schemas.product_schema import ProductCreate, ProductUpdate
@@ -12,19 +12,19 @@ class ProductService:
         self.uow = uow
 
     def create_product(self, product: ProductCreate):
-       
+
+       product.name = product.name.strip()
        with self.uow:
         existing_product = self.repo.get_product_by_name(
             product.name
         )
 
         if existing_product:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="Product already exists"
-            )
+            raise ProductAlreadyExistsException(product.name)
+        
+        product_data = product.model_dump()
 
-        new_product = self.repo.create_product(product)
+        new_product = self.repo.create_product(product_data)
 
         self.uow.commit()
 
@@ -44,10 +44,7 @@ class ProductService:
       product = self.repo.get_product_by_id(product_id)
 
       if not product:
-        raise HTTPException(
-            status_code=404,
-            detail="Product not found"
-        )
+        raise ProductNotFoundException(product_id)
 
       return product
 
@@ -56,25 +53,37 @@ class ProductService:
     product_id: int,
     product: ProductUpdate
 ):
-     with self.uow:
-      existing_product = self.repo.get_product_by_id(product_id)
 
-      if existing_product is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Product not found."
+     with self.uow:
+
+        existing_product = self.repo.get_product_by_id(product_id)
+
+        if existing_product is None:
+            raise ProductNotFoundException(product_id)
+
+        # Only check duplicates if the client is changing the name.
+        if product.name is not None:
+
+            product.name = product.name.strip()
+
+            duplicate = self.repo.get_other_product_by_name(
+                product.name,
+                product_id
+            )
+
+            if duplicate:
+                raise ProductAlreadyExistsException(product.name)
+
+        product_data = product.model_dump()
+
+        updated_product = self.repo.update_product(
+            product_id,
+            product_data
         )
 
-      product_data = product.model_dump() #convert the ProductUpdate object to a dictionary for repo....
+        self.uow.commit()
 
-      updated_product = self.repo.update_product(
-        product_id,
-        product_data
-    )
-
-      self.uow.commit()
-
-      return updated_product
+        return updated_product
 
     def delete_product(self, product_id: int):
 
@@ -83,8 +92,6 @@ class ProductService:
           deleted = self.repo.soft_delete_product(product_id)
 
           if not deleted:
-           raise HTTPException(
-            status_code=404,
-            detail="Product not found."
-        )
+           raise ProductNotFoundException(product_id)
+          
           self.uow.commit()

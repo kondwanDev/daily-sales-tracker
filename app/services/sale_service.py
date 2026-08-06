@@ -1,6 +1,7 @@
 from decimal import Decimal
 
-from fastapi import HTTPException, status
+from app.exceptions.sale_exceptions import SaleNotFoundException
+from app.exceptions.product_exceptions import ProductNotFoundException
 
 from app.repositories.sale_repository import SaleRepository
 from app.schemas.sale_schema import SaleCreate, SaleItemResponse, SaleDetailResponse
@@ -32,10 +33,7 @@ class SaleService:
             for item in sale.items:
 
                 if not self.repo.product_exists(item.product_id):
-                    raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
-                        detail=f"Product with ID {item.product_id} not found."
-                    )
+                    raise ProductNotFoundException(item.product_id)
 
                 self.repo.add_sale_item(
                     sale_id=created_sale["id"],
@@ -82,10 +80,7 @@ class SaleService:
     )
         
         if not rows:
-         raise HTTPException(
-            status_code=404,
-            detail="Sale not found"
-        )
+         raise SaleNotFoundException(sale_id)
 
     # Construct the SaleDetailResponse object from the rows returned by the repository
     # rows[0] contains the sale details, and the rest of the rows contain the sale items

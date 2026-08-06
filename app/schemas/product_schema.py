@@ -18,6 +18,6 @@ class ProductResponse(BaseModel):
     created_at: datetime
 
 class ProductUpdate(BaseModel):
-    name: str
-    category: str
-    default_price: Decimal
+    name: str = Field(..., min_length=1, max_length=100)
+    category: str | None = Field(default=None, max_length=100)
+    default_price: Decimal = Field(..., gt=0)

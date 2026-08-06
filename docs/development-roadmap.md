@@ -88,10 +88,10 @@ Generate useful business reports.
 
 ## Tasks
 
-* [ ] Daily sales summary.
-* [ ] Sales history by date.
-* [ ] Product sales report.
-* [ ] Total revenue report.
+* [*] Daily sales summary.
+* [*] Sales history by date.
+* [*] Product sales report.
+* [*] Total revenue report.
 
 ---
 
@@ -170,10 +170,10 @@ These features are outside the scope of the first version.
 | Milestone                   | Status        |
 | --------------------------- | ------------- |
 | Project Setup               | ✅ Completed  |
-| Authentication              | ✅ Co mpleted
-| Product Management          | ✅ Co mpleted  |
-| Sales Management            | ✅ Co mpleted |
-| Reporting                   | ⏳ Not Started |
+| Authentication              | ✅ Completed
+| Product Management          | ✅ Completed  |
+| Sales Management            | ✅ Completed |
+| Reporting                   | ✅ Completed |
 | Validation & Error Handling | ⏳ Not Started |
 | Testing                     | ⏳ Not Started |
 | Future Enhancements         | 📌 Planned    |

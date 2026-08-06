@@ -15,7 +15,7 @@ class ProductRepository:
             """
             SELECT *
             FROM products
-            WHERE name = %s
+            WHERE LOWER(name) = LOWER(%s)
             AND is_deleted = FALSE
             """,
             (name,)
@@ -27,7 +27,7 @@ class ProductRepository:
 
       
 
-    def create_product(self, product: ProductCreate):
+    def create_product(self, product:dict):
 
         with self.conn.cursor() as cur:
 
@@ -53,9 +53,9 @@ class ProductRepository:
                     created_at
                 """,
                 (
-                    product.name,
-                    product.category,
-                    product.default_price
+                    product["name"],
+                    product["category"],
+                    product["default_price"]
                 )
             )
 
@@ -162,4 +162,25 @@ class ProductRepository:
 
 
          return cur.rowcount > 0 # returns True if a row was updated, False otherwise
-        
+
+    def get_other_product_by_name( self, name: str,  product_id: int ):
+           
+        """
+            Find another product with the same name.
+            Ignore the product currently being updated.
+              """
+   
+        query = """
+                SELECT *
+                FROM products
+                WHERE LOWER(name) = LOWER(%s)
+                AND id != %s;
+            """
+        with self.conn.cursor() as cur:
+
+            cur.execute(
+                   query,
+                  (name, product_id)
+                )
+
+            return cur.fetchone()
