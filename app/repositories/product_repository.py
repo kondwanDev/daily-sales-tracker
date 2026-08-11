@@ -86,6 +86,7 @@ class ProductRepository:
                 """
                 SELECT *
                 FROM products
+                WHERE is_deleted = FALSE
                 ORDER BY id
                 LIMIT %s
                 OFFSET %s
