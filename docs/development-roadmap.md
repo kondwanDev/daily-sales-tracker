@@ -119,11 +119,11 @@ Verify that the application behaves correctly.
 
 ## Tasks
 
-* [ ] Test authentication.
-* [ ] Test product management.
-* [ ] Test sales management.
-* [ ] Test reports.
-* [ ] Test edge cases.
+* [*] Test authentication.
+* [*] Test product management.
+* [*] Test sales management.
+* [*] Test reports.
+* [*] Test edge cases.
 
 ---
 
