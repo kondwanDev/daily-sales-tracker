@@ -14,7 +14,7 @@ Many small retail businesses still record sales manually. At the end of each day
 
 ## Solution
 
-Daily Sales Tracker provides a simple way to record sales digitally. The system automatically calculates sales totals, stores sales history, and lays the foundation for future features such as reporting and inventory management.
+Daily Sales Tracker provides a simple way to record sales digitally. The system automatically calculates sales totals, stores sales history, and lays the foundation for future features such as  inventory management.
 
 ---
 
